@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>IFRI_MentorLink - Recherche de mentor</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <header>
+    
+    
+    <img src="static/images/logo.png" alt="Logo" class="logo">
+    <h1>IFRI_MentorLink</h1>
+    <p>Trouvez un mentor compatible avec vos besoins</p>
+    
+    
+  </header>
+
+  <main>
+    <form id="search-form">
+      <label for="matieres">Matières / compétences recherchées</label>
+      <input type="text" id="matieres" placeholder="ex: Python, SQL" required>
+      <small>Séparez les matières par une virgule</small>
+
+      <label for="jour">Jour souhaité</label>
+      <select id="jour" required>
+        <option value="Lundi">Lundi</option>
+        <option value="Mardi">Mardi</option>
+        <option value="Mercredi">Mercredi</option>
+        <option value="Jeudi">Jeudi</option>
+        <option value="Vendredi">Vendredi</option>
+        <option value="Samedi">Samedi</option>
+        <option value="Dimanche">Dimanche</option>
+      </select>
+
+      <label for="heure">Heure souhaitée</label>
+      <input type="time" id="heure" required>
+
+      <label for="filiere">Filière (optionnel)</label>
+      <input type="text" id="filiere" placeholder="ex: GL, IA, IM, SE_IoT, SI">
+
+      <button type="submit">Rechercher</button>
+    </form>
+
+    <section id="resultats"></section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
