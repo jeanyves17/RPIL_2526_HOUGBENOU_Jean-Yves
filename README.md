@@ -1,45 +1,91 @@
-# IFRI_MentorLink — Rattrapage
+# IFRI_MentorLink
 
-Version simplifiée : une seule page, recherche de mentor compatible (matière + créneau ± 1h), sans authentification.
+Application web de mise en relation entre étudiants et mentors au sein de l'IFRI (Institut de Formation et de Recherche en Informatique), Université d'Abomey-Calavi.
 
-## Étapes pour lancer le projet
+Projet réalisé dans le cadre du rattrapage de PIL (Projet Intégré de Licence) — Licence 1.
 
-### 1. Créer la base de données
-```bash
-createdb ifri_mentorlink
-psql -d ifri_mentorlink -f database/schema.sql
+## 🎯 Objectif
+
+Permettre aux étudiants de trouver facilement un mentor selon leurs besoins (matière, disponibilités, filière) et de faciliter la prise de contact pour des séances de tutorat.
+
+## 🛠️ Technologies utilisées
+
+- **Backend** : Python (Flask)
+- **Base de données** : PostgreSQL
+- **Frontend** : HTML, CSS, JavaScript (vanilla)
+
+## 📁 Structure du projet
+
 ```
-(Adapte `DB_CONFIG` dans `app.py` si ton user/mot de passe PostgreSQL diffère.)
+IFRI_MentorLink/
+├── app.py                  # Point d'entrée de l'application Flask
+├── database/
+│   └── schema.sql           # Script de création de la base de données
+├── static/
+│   ├── css/
+│   │   └── style.css        # Feuille de style
+│   ├── js/
+│   │   └── script.js        # Scripts JavaScript
+│   └── images/
+│       └── logo.png
+├── templates/
+│   └── index.html            # Page(s) HTML (Jinja2)
+└── README.md
+```
 
-### 2. Installer les dépendances Python
+## ⚙️ Installation
+
+### Prérequis
+
+- Python 3.12+
+- PostgreSQL installé et configuré
+- pip
+
+### Étapes
+
+1. **Cloner le dépôt**
 ```bash
-python -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
+git clone https://github.com/jeanyves17/RPIL_2526_HOUGBENOU_Jean-Yves.git
+cd RPIL_2526_HOUGBENOU_Jean-Yves
+```
+
+2. **Installer les dépendances Python**
+```bash
 pip install -r requirements.txt
 ```
 
-### 3. Lancer le serveur
+3. **Configurer la base de données**
+
+Créer une base PostgreSQL, puis exécuter le script de schéma :
+```bash
+psql -U votre_utilisateur -d nom_de_la_base -f database/schema.sql
+```
+
+4. **Configurer la connexion à la base de données**
+
+Adapter les identifiants de connexion (utilisateur, mot de passe, nom de la base) dans `app.py` ou dans un fichier de configuration/variables d'environnement.
+
+5. **Lancer l'application**
 ```bash
 python app.py
 ```
-Puis ouvre : http://127.0.0.1:5000
 
-## Comment les fichiers s'articulent
+L'application est ensuite accessible sur `http://127.0.0.1:5000`.
 
-| Fichier | Rôle |
-|---|---|
-| `database/schema.sql` | Crée la table `mentors` (colonnes en tableaux PostgreSQL) + 3 mentors de test |
-| `app.py` | Backend Flask : route `/` sert la page, route `/api/match` fait le matching en Python et interroge PostgreSQL |
-| `templates/index.html` | La page unique avec le formulaire (matières, jour, heure, filière optionnelle) |
-| `static/css/style.css` | Mise en forme |
-| `static/js/script.js` | Récupère les valeurs du formulaire, envoie une requête POST à `/api/match`, affiche les résultats renvoyés en JSON |
+## 🗄️ Base de données
 
-## Logique du matching (dans `app.py`)
-1. On charge tous les mentors depuis PostgreSQL.
-2. Pour chaque mentor : on vérifie qu'il y a au moins une matière en commun.
-3. On vérifie qu'il a un créneau le même jour, à ± 1h de l'heure demandée.
-4. Score = 10 points par matière commune + 5 points si la filière correspond.
-5. On trie les résultats par score décroissant et on renvoie le JSON au frontend.
+La table principale `mentors` contient :
+- `id` — identifiant unique
+- `nom` — nom du mentor
+- `matieres` — liste des matières enseignées
+- `disponibilites` — créneaux horaires disponibles
+- `filiere` — filière concernée (IA, IM, GL, etc.)
+- `format_mentorat` — format proposé (présentiel, distanciel, les deux)
 
-## Note sur "travail individuel"
-Le code est prêt à l'emploi mais reste simple : relis chaque fichier avant de le soumettre pour être capable de l'expliquer à l'oral (présentation du 06 juillet), le rattrapage évalue ta compréhension autant que le résultat.
+## ✨ Fonctionnalités
+
+- Consultation de la liste des mentors disponibles
+- Filtrage par matière, disponibilité et filière
+- Interface simple et responsive
+
+
